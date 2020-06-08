@@ -81,6 +81,9 @@ target/
 profile_default/
 ipython_config.py
 
+# VSCode
+.vscode
+
 # pyenv
 .python-version
 
@@ -102,6 +105,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.vk_api_venv
 .env
 .venv
 env/
@@ -127,3 +131,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vk_api_venv/pyvenv.cfg
+.vk_api_venv/Scripts/activate
+.vk_api_venv/Scripts/activate.bat
+.vk_api_venv/Scripts/Activate.ps1
+.vk_api_venv/Scripts/chardetect.exe
+.vk_api_venv/Scripts/deactivate.bat
+.vk_api_venv/Scripts/easy_install-3.8.exe
+.vk_api_venv/Scripts/easy_install.exe
+.vk_api_venv/Scripts/pip.exe
+.vk_api_venv/Scripts/pip3.8.exe
+.vk_api_venv/Scripts/pip3.exe
+.vk_api_venv/Scripts/python_d.exe
+.vk_api_venv/Scripts/python.exe
+.vk_api_venv/Scripts/pythonw_d.exe
+.vk_api_venv/Scripts/pythonw.exe
+.vscode/settings.json
+.vscode/settings.json

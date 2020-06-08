@@ -24,7 +24,6 @@ def create_keyboard():
   return keyboard.get_keyboard()
 
 vk_session = vk_api.VkApi(token=config.VK_TOKEN)
-session_api = vk_session.get_api()
 longpoll = VkLongPoll(vk_session)
 
 logging.info(f"{'-' * 20}\n{'Session was started': ^20}")
@@ -33,7 +32,7 @@ while True:                       # бесконечное прослушива�
     logging.info(f"{event.type}; {event.from_chat}")
 
     if event.type == VkEventType.MESSAGE_NEW:      # если это новое сообщение, то =>
-      handler = handlers.MessageHandler(vk_session, session_api)  # помощник для работы с сообщениями
+      handler = handlers.MessageHandler(vk_session)  # помощник для работы с сообщениями
 
       message = event.text.lower() # сохраняем сообщение пользователя
 
