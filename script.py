@@ -29,8 +29,6 @@ longpoll = VkLongPoll(vk_session)
 logging.info(f"{'-' * 20}\n{'Session was started': ^20}")
 while True:                       # бесконечное прослушивание ответов с серверов VK
   for event in longpoll.listen():     # собирает события с прослушки
-    logging.info(f"{event.type}; {event.from_chat}")
-
     if event.type == VkEventType.MESSAGE_NEW:      # если это новое сообщение, то =>
       handler = handlers.MessageHandler(vk_session)  # помощник для работы с сообщениями
 
@@ -40,18 +38,18 @@ while True:                       # бесконечное прослушива�
         keyboard = create_keyboard() # клавиатура для пользователя
 
         if message == 'Начать':                        
-          handler.send_message('user_id',event.user_id, "Давай начнем!", 0, keyboard) # при начале работы с ботессой
+          handler.send_message('user_id',event.user_id, "Давай начнем!",keyboard=keyboard) # при начале работы с ботессой
         elif message == 'кто твой создатель?': 
-          handler.send_message('user_id',event.user_id, f"У меня {len(contributors)} создателя. Yul powered by {' and '.join(contributors)}", 0, keyboard) # пасхалОчка
+          handler.send_message('user_id',event.user_id, f"У меня {len(contributors)} создателя. Yul powered by {' and '.join(contributors)}",keyboard=keyboard) # пасхалОчка
         elif message == 'какой сегодня день?':
-          handler.send_message('user_id',event.user_id, f'Сегодня: {time.now().strftime("%d.%m.%Y")}', 0, keyboard)
+          handler.send_message('user_id',event.user_id, f'Сегодня: {time.now().strftime("%d.%m.%Y")}',keyboard=keyboard)
         elif message == 'как я?':
-          handler.send_message('user_id',event.user_id, f'Я в норме!', 0, keyboard)
+          handler.send_message('user_id',event.user_id, f'Я в норме!',keyboard=keyboard)
         elif message == 'помощь':
-          handler.send_message('peer_id',event.user_id, f'Пока я только узнаю, чем я могу помочь, простиии 👉🏻👈🏻', 0, keyboard)
+          handler.send_message('peer_id',event.user_id, f'Пока я только узнаю, чем я могу помочь, простиии 👉🏻👈🏻',keyboard=keyboard)
         else:
           # отправим эхо, если не распознали запроса пользователя
-          handler.send_message('user_id', event.user_id, f"{event.text}", 0, keyboard)       
+          handler.send_message('user_id', event.user_id, f"{event.text}",keyboard=keyboard)       
       elif event.from_chat and not event.from_me:                             # для чатов 
         handler.send_message('chat_id', event.chat_id, f"{event.text}")
       
