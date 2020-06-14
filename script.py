@@ -31,32 +31,31 @@ logging.info(f"{'-' * 20}\n{'Session was started': ^20}")
 while True:                       # бесконечное прослушивание ответов с серверов VK
   for event in longpoll.listen():     # собирает события с прослушки
     if event.type == VkEventType.MESSAGE_NEW:      # если это новое сообщение, то =>
-      handler = handlers.MessageHandler(session_api)  # помощник для работы с сообщениями
-
+      handler = handlers.MessageHandler(vk_session)  # помощник для работы с сообщениями
       message = event.text.lower() # сохраняем сообщение пользователя
 
       if event.from_user and not event.from_me:         # для диалога с пользователями
         keyboard = create_keyboard() # клавиатура для пользователя
 
         if message == 'Начать':                        
-          handler.send_message(id=event.peer_id, message="Давай начнем!",keyboard=keyboard) # при начале работы с ботессой
+          handler.send_message(mtype='user_id', id=event.peer_id, message="Давай начнем!",keyboard=keyboard) # при начале работы с ботессой
         elif message == 'кто твой создатель?': 
-          handler.send_message(id=event.peer_id, message=f"У меня {len(contributors)} создателя. Yul powered by {' and '.join(contributors)}",keyboard=keyboard) # пасхалОчка
+          handler.send_message(mtype='user_id', id=event.peer_id, message=f"У меня {len(contributors)} создателя. Yul powered by {' and '.join(contributors)}",keyboard=keyboard) # пасхалОчка
         elif message == 'какой сегодня день?':
-          handler.send_message(id=event.peer_id, message=f'Сегодня: {time.now().strftime("%d.%m.%Y")}',keyboard=keyboard)
+          handler.send_message(mtype='user_id', id=event.peer_id, message=f'Сегодня: {time.now().strftime("%d.%m.%Y")}',keyboard=keyboard)
         elif message == 'как я?':
-          handler.send_message(id=event.peer_id, message=f'Я в норме!',keyboard=keyboard)
+          handler.send_message(mtype='user_id', id=event.peer_id, message=f'Я в норме!',keyboard=keyboard)
         elif message == 'помощь':
-          handler.send_message(id=event.peer_id, message=f'Пока я только узнаю, чем я могу помочь, простиии 👉🏻👈🏻',keyboard=keyboard)
+          handler.send_message(mtype='user_id', id=event.peer_id, message=f'Пока я только узнаю, чем я могу помочь, простиии 👉🏻👈🏻',keyboard=keyboard)
         else:
           # отправим эхо, если не распознали запроса пользователя
-          handler.send_message(event.peer_id, f"{event.text}",keyboard=keyboard)       
+          handler.send_message(mtype='user_id', id=event.peer_id, message=f"{event.text}",keyboard=keyboard)       
       elif event.from_chat and not event.from_me:                             # для чатов 
-        handler.send_message(id=event.peer_id, message=f"{event.text}")
+        handler.send_message(mtype='chat_id', id=event.peer_id, message=f"{event.text}")
       
       if not event.from_me:
         # сохранение сообщения пользователя в логи
-        logging.info(f'TEXT: {message.encode("utf-8")}; TIME  : {str(time.strftime(time.now(), "%H:%M:%S"))}')
+        logging.info(f'TEXT: {message.encode("utf-8")}; TIME  : {str(time.strftime(time.now(), "%H:%M:%S"))};')
 
 else:
   logging.info(f"\n{'-' * 20}\n{'Session was started': ^20}")
