@@ -17,13 +17,18 @@ class MessageHandler:
     self.vk_session = vk_session
   
   def send_message(self, mtype, id, message = ' ', keyboard = None):
-      """Отправка сообщения из экземпляра MessageHandler
+        """Отправка сообщения из экземпляра MessageHandler
         
         keywords arguments:
         id -- id if receiver
-        message -- message to recever"""
-      self.vk_session.method('messages.send', values= {f"{mtype}":f'{id}', 'message': f"{message}", 'random_id':'0', 'keyboard':f"{keyboard}"})
-      logging.info(f"USER_ID: {id}; MESSAGE: {message}")
+        message -- message to receiver"""
+    
+        if keyboard == None:
+            self.vk_session.method('messages.send', values= {f"{mtype}":f'{id}', 'message': f"{message}", 'random_id':'0'})
+        else:
+            self.vk_session.method('messages.send', values= {f"{mtype}":f'{id}', 'message': f"{message}", 'random_id':'0', 'keyboard':f"{keyboard}"})
+
+        logging.info(f"USER_ID: {id}; MESSAGE: {message}")
 
 class WeatherHandler:
     def __init__(self):
@@ -33,6 +38,7 @@ class WeatherHandler:
 
     def GetWeather(self, city, country = None):
         """Получить погоду исходя из города (и страны) -> (dict('temperature':temp, 'condition':condition))
+            
             keywords arguments:
             city -- город 
             country -- страна (необяз.)"""
@@ -56,8 +62,10 @@ class WeatherHandler:
 class UserHandler:
     def __init__(self, vk_session):
         super().__init__()
-        self.vk_session = vk_session
+        self.session = vk_session
     
     def GetUser(self, id):
-        response = self.vk_session.method('users.get', values= {'users_id':[id], 'name_case': 'Nom', 'fields':'city'})
+        '''Возвращает JSON-объект с информацией о пользователе + город (id, название) -> JSON'''
+
+        response = self.session.users.get(user_ids = id, fields = 'city')
         return response

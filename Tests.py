@@ -5,15 +5,12 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import handlers
 import requests
 import config
+
 ######### Tests ###########
 
 temp_session = vk_api.VkApi(token=config.VK_TOKEN)
 session = temp_session.get_api()
 longpoll = VkLongPoll(temp_session)
-
-print(session.users.get(users_id=307841071))
-# userH = handlers.UserHandler(temp_session)
-# print(userH.GetUser("307841071"))
 
 
 ### Weather ###
@@ -29,3 +26,4 @@ print(session.users.get(users_id=307841071))
 
 
 ### User ###
+print(session.users.get(user_ids = 307841071, fields = 'city'))
