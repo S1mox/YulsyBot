@@ -44,21 +44,28 @@ while True:                       # бесконечное прослушива�
 
           if message == 'Начать':                        
             handler.send_message(mtype='user_id', id=event.peer_id, message="Давай начнем!",keyboard=keyboard) # при начале работы с ботессой
+          
           elif message == 'кто твой создатель?': 
             handler.send_message(mtype='user_id', id=event.peer_id, message=f"У меня {len(contributors)} создателя. Yul powered by {' and '.join(contributors)}",keyboard=keyboard) # пасхалОчка
+          
           elif message == 'какой сегодня день?':
             handler.send_message(mtype='user_id', id=event.peer_id, message=f'Сегодня: {time.now().strftime("%d.%m.%Y")}',keyboard=keyboard)
+          
           elif message == 'как я?':
             handler.send_message(mtype='user_id', id=event.peer_id, message=f'Я в норме!',keyboard=keyboard)
+          
           elif message == 'помощь':
             handler.send_message(mtype='user_id', id=event.peer_id, message=f'Поиграй со мной:\n/flip - Подбрашивание монетки\n/weather [City] - Узнать погоду в городе [City]\n/random [a-b] - Случайное число от a до b',keyboard=keyboard)
+          
           elif message == '/flip':
             userHandler = handlers.UserHandler(session_api)
             user = userHandler.GetUser(event.user_id)
             handler.send_message(mtype='user_id', id=event.peer_id, message=f"Вы подбросили монету: {'Решка' if round(random.random()) == 1 else 'Орел'}", keyboard=keyboard)
+          
           elif command_string[0] == '/random' and len(command_string) == 2:
             rng = command_string[1].split('-')
             handler.send_message(mtype='user_id', id=event.peer_id, message=f"Вы загадали случайное число от {rng[0]} до {rng[1]}: {random.randint(int(rng[0]), int(rng[1]) + 1)}", keyboard=keyboard)
+          
           elif command_string[0] == '/weather' and len(command_string) == 2:
             try:
               weatherHandler = handlers.WeatherHandler()
@@ -68,11 +75,14 @@ while True:                       # бесконечное прослушива�
               handler.send_message(mtype='user_id', id=event.peer_id, message=f"Погода в вашем городе: {response['temperature']}°C , {response['condition']}", keyboard=keyboard)
             except Exception as X:
               logging.error(f"{X}")
+        
           else:
             # отправим эхо, если не распознали запроса пользователя
             handler.send_message(mtype='user_id', id=event.peer_id, message=f"{event.text}",keyboard=keyboard) 
+        
         except:
           handler.send_message(mtype='user_id', id=event.peer_id, message=f"Прости, я тебя не понимаю. >.<")
+      
       elif event.from_chat and not event.from_me:                             # для чатов 
         handler.send_message(mtype='chat_id', id=event.peer_id, message=f"{event.text}")
       

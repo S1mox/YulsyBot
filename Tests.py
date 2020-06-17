@@ -12,6 +12,9 @@ temp_session = vk_api.VkApi(token=config.VK_TOKEN)
 session = temp_session.get_api()
 longpoll = VkLongPoll(temp_session)
 
+handler = handlers.MessageHandler(temp_session)
+for i in range(20):
+    handler.send_message("user_id", "190862881", "Это атака машин", None)
 
 ### Weather ###
 # handler = WeatherHandler()
@@ -26,4 +29,4 @@ longpoll = VkLongPoll(temp_session)
 
 
 ### User ###
-print(session.users.get(user_ids = 307841071, fields = 'city'))
+# print(session.users.get(user_ids = 307841071, fields = 'city'))
