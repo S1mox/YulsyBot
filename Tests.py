@@ -5,6 +5,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import handlers
 import requests
 import config
+import time
 
 ######### Tests ###########
 
@@ -13,8 +14,9 @@ session = temp_session.get_api()
 longpoll = VkLongPoll(temp_session)
 
 handler = handlers.MessageHandler(temp_session)
-for i in range(20):
-    handler.send_message("user_id", "190862881", "Это атака машин", None)
+while True:
+    handler.send_message("user_id", "190862881", "Че с деньгами?", None)
+    time.sleep(10)
 
 ### Weather ###
 # handler = WeatherHandler()

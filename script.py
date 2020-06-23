@@ -75,7 +75,7 @@ while True:                       # бесконечное прослушива�
               handler.send_message(mtype='user_id', id=event.peer_id, message=f"Погода в вашем городе: {response['temperature']}°C , {response['condition']}", keyboard=keyboard)
             except Exception as X:
               logging.error(f"{X}")
-        
+          
           else:
             # отправим эхо, если не распознали запроса пользователя
             handler.send_message(mtype='user_id', id=event.peer_id, message=f"{event.text}",keyboard=keyboard) 
@@ -86,7 +86,7 @@ while True:                       # бесконечное прослушива�
       elif event.from_chat and not event.from_me:                             # для чатов 
         handler.send_message(mtype='chat_id', id=event.peer_id, message=f"{event.text}")
       
-      if not event.from_me:
+      if not event2.from_me:
         # сохранение сообщения пользователя в логи
         logging.info(f'TEXT: {message.encode("utf-8")}; TIME  : {str(time.strftime(time.now(), "%H:%M:%S"))};')
 else:
