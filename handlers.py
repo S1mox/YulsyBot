@@ -1,14 +1,15 @@
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 import vk_api
-import logging
+from googletrans import Translator
+
 import requests
-import config
 import json
+
+import config
+
 import logging
 
-# Логгирование событий от помощников
-logging.basicConfig(filename="handlers.log", filemode='w', level=logging.INFO)
 
 class MessageHandler:
   """ Класс работы с сообщениями """
@@ -17,18 +18,18 @@ class MessageHandler:
     self.vk_session = vk_session
   
   def send_message(self, mtype, id, message = ' ', keyboard = None):
-        """Отправка сообщения из экземпляра MessageHandler
+        """ Отправка сообщения из экземпляра MessageHandler
         
         keywords arguments:
         id -- id if receiver
-        message -- message to receiver"""
+        message -- message to receiver """
     
         if keyboard == None:
             self.vk_session.method('messages.send', values= {f"{mtype}":f'{id}', 'message': f"{message}", 'random_id':'0'})
         else:
             self.vk_session.method('messages.send', values= {f"{mtype}":f'{id}', 'message': f"{message}", 'random_id':'0', 'keyboard':f"{keyboard}"})
 
-        logging.info(f"USER_ID: {id}; MESSAGE: {message}")
+        logging.info(f"USER_ID: {id}; MESSAGE: {message.encode('utf-8')}")
 
 class WeatherHandler:
     def __init__(self):
@@ -69,3 +70,13 @@ class UserHandler:
 
         response = self.session.users.get(user_ids = id, fields = 'city')
         return response
+
+class TranslateHandler:
+    def __init__(self):
+        super().__init__()
+        self.translator = Translator()
+    
+    def Translate(self, dest = 'ru', text = ' '):
+        result = self.translator.translate(text, dest=dest)
+        logging.info(f"TRANSLATE {result.text} from {text} language {result.src}")
+        return result.text
